@@ -1,0 +1,5 @@
+outs:
+- md5: 8e8de8d8666735de004076151c68cd8d
+  size: 7903594
+  hash: md5
+  path: summarizer-data.zip
