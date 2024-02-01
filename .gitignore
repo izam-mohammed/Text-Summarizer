@@ -1,2 +1,74 @@
-*.log
+#custom
 artifacts/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+dist/
+egg-info/
+*.egg
+
+# virtualenv
+venv/
+venv.bak/
+env/
+ENV/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# Sublime Text
+.sublime-project
+.sublime-workspace
+
+# SQLite database files
+*.sqlite
+*.sqlite3
+
+# Log files and directories
+logs/
+*.log
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Compiled Python files
+*.pyc
+
+# Compiled C++ files
+*.out
+
+# Python caches
+__pycache__/
+
+# Python environment
+/.venv
+/.env
+
+# MyPY
+.mypy_cache/
+
+# Sphinx documentation
+docs/_build/
+docs/_themes/
