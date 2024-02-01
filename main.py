@@ -1,5 +1,6 @@
-from textSummarizer.pipeline.stage_01_data_ingestion import DataIngestionTrainingPipeline
 from textSummarizer.logging import logger
+from textSummarizer.pipeline.stage_01_data_ingestion import DataIngestionTrainingPipeline
+from textSummarizer.pipeline.stage_02_data_validation import DataValidationTrainingPipeline
 
 
 
@@ -26,3 +27,4 @@ def run_pipeline(stage_name, pipeline_instance):
     
 if __name__ == "__main__":
     run_pipeline("Data Ingestion", DataIngestionTrainingPipeline())
+    run_pipeline("Data Validation", DataValidationTrainingPipeline())
