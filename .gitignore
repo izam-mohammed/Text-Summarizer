@@ -1,8 +1,8 @@
 #custom
-artifacts/
+artifacts/*
 
 # Byte-compiled / optimized / DLL files
-__pycache__/
+__pycache__/*
 *.pyc
 *.pyo
 *.pyd
@@ -15,7 +15,7 @@ __pycache__/
 env/
 build/
 dist/
-egg-info/
+egg-info/*
 *.egg
 
 # virtualenv
