@@ -3,6 +3,7 @@ from textSummarizer.pipeline.stage_01_data_ingestion import DataIngestionTrainin
 from textSummarizer.pipeline.stage_02_data_validation import DataValidationTrainingPipeline
 from textSummarizer.pipeline.stage_03_data_tranformation import DataTransformationTrainingPipeline
 from textSummarizer.pipeline.stage_04_model_trainer import ModelTrainerTrainingPipeline
+from textSummarizer.pipeline.stage_05_model_evaluation import ModelEvaluationTrainingPipeline
 
 
 def run_pipeline(stage_name, pipeline_instance):
@@ -31,3 +32,4 @@ if __name__ == "__main__":
     run_pipeline("Data Validation", DataValidationTrainingPipeline())
     run_pipeline("Data Transformation", DataTransformationTrainingPipeline())
     run_pipeline("Model Training", ModelTrainerTrainingPipeline())
+    run_pipeline("Model Evaluation", ModelEvaluationTrainingPipeline())
