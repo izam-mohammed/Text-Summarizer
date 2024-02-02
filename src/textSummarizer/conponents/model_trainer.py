@@ -9,15 +9,44 @@ import os
 
 
 class ModelTrainer:
+    """
+    A class for training a Seq2Seq model.
+
+    Attributes:
+        config (ModelTrainerConfig): Configuration object for model training.
+
+    Methods:
+        __init__: Initializes the ModelTrainer object.
+        train: Trains the Seq2Seq model based on the provided configuration.
+
+    Usage:
+        model_trainer = ModelTrainer(config)
+        model_trainer.train()
+    """
+
     def __init__(self, config: ModelTrainerConfig) -> None:
+        """
+        Initializes the ModelTrainer object.
+
+        Args:
+            config (ModelTrainerConfig): Configuration object for model training.
+        """
         self.config = config
 
     def train(self):
+        """
+        Trains the Seq2Seq model based on the provided configuration.
+
+        Returns:
+            None
+        """
         device = "cuda" if torch.cuda.is_available() else "cpu"
         logger.info(f"Using the device {device}")
 
         tokenizer = AutoTokenizer.from_pretrained(self.config.model_cpkt)
-        model_pegasus = AutoModelForSeq2SeqLM.from_pretrained(self.config.model_cpkt).to(device)
+        model_pegasus = AutoModelForSeq2SeqLM.from_pretrained(
+            self.config.model_cpkt
+        ).to(device)
         seq2seq_data_collector = DataCollatorForSeq2Seq(
             tokenizer=tokenizer,
             model=model_pegasus,
@@ -26,44 +55,48 @@ class ModelTrainer:
         # loading the data
         dataset_local_pt = load_from_disk(self.config.data_path)
 
-
         trainer_args = TrainingArguments(
-            output_dir=self.config.root_dir, 
-            num_train_epochs=self.config.num_train_epochs, 
+            output_dir=self.config.root_dir,
+            num_train_epochs=self.config.num_train_epochs,
             warmup_steps=self.config.warmup_steps,
-            per_device_train_batch_size=self.config.per_device_train_batch_size, 
+            per_device_train_batch_size=self.config.per_device_train_batch_size,
             per_device_eval_batch_size=self.config.per_device_train_batch_size,
-            weight_decay=self.config.weight_decay, 
+            weight_decay=self.config.weight_decay,
             logging_steps=self.config.logging_steps,
-            evaluation_strategy=self.config.evaluation_strategy, 
-            eval_steps=self.config.eval_steps, 
+            evaluation_strategy=self.config.evaluation_strategy,
+            eval_steps=self.config.eval_steps,
             save_steps=self.config.save_steps,
             gradient_accumulation_steps=self.config.gradient_accumulation_steps,
-        ) 
-
+        )
 
         trainer = Trainer(
-            model=model_pegasus, 
+            model=model_pegasus,
             args=trainer_args,
-            tokenizer=tokenizer, 
+            tokenizer=tokenizer,
             data_collator=seq2seq_data_collector,
-            train_dataset=dataset_local_pt["train"], 
-            eval_dataset=dataset_local_pt["validation"]
-            )
+            train_dataset=dataset_local_pt["train"],
+            eval_dataset=dataset_local_pt["validation"],
+        )
 
         torch.cuda.empty_cache()
 
         if self.config.enable_training:
             logger.info("Training started")
             trainer.train()
-            logger.info('training completed')
+            logger.info("training completed")
         else:
             logger.info("skipping the training")
 
         ## Save model
-        model_pegasus.save_pretrained(os.path.join(self.config.root_dir,"pegasus-samsum-model"))
-        logger.info(f"saved the model at {os.path.join(self.config.root_dir,'pegasus-samsum-model')}")
+        model_pegasus.save_pretrained(
+            os.path.join(self.config.root_dir, "pegasus-samsum-model")
+        )
+        logger.info(
+            f"saved the model at {os.path.join(self.config.root_dir,'pegasus-samsum-model')}"
+        )
 
         ## Save tokenizer
-        tokenizer.save_pretrained(os.path.join(self.config.root_dir,"tokenizer"))
-        logger.info(f"saved the tokenizer at {os.path.join(self.config.root_dir,'tokenizer')}")
+        tokenizer.save_pretrained(os.path.join(self.config.root_dir, "tokenizer"))
+        logger.info(
+            f"saved the tokenizer at {os.path.join(self.config.root_dir,'tokenizer')}"
+        )
