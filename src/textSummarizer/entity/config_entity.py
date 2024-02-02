@@ -29,6 +29,7 @@ class ModelTrainerConfig:
     root_dir: Path
     data_path: Path
     model_cpkt: Path
+    enable_training: bool
     num_train_epochs: int
     warmup_steps: int
     per_device_train_batch_size: int

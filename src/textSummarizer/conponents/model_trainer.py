@@ -53,9 +53,12 @@ class ModelTrainer:
 
         torch.cuda.empty_cache()
 
-        logger.info("Training started")
-        trainer.train()
-        logger.info('training completed')
+        if self.config.enable_training:
+            logger.info("Training started")
+            trainer.train()
+            logger.info('training completed')
+        else:
+            logger.info("skipping the training")
 
         ## Save model
         model_pegasus.save_pretrained(os.path.join(self.config.root_dir,"pegasus-samsum-model"))
